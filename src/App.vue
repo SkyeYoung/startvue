@@ -1,14 +1,14 @@
 <template>
-  <index></index>
+  <home/>
 </template>
 
 <script>
-import Index from "@/views";
+import Home from "@/views/Home";
 
 export default {
   name: 'App',
   components: {
-    Index
+    Home
   }
 }
 </script>

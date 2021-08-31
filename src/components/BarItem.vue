@@ -1,14 +1,14 @@
 <template>
   <button
       ref="button"
-      :class="['menu__item',{'active': active}]"
-      :style="{'--bgColorItem': this.color}"
-      @click="$emit('accepted')"
+      :class="['menu__item',{'active': item.active}]"
+      :style="{'--bgColorItem': item.bgColor}"
+      @click="$emit('clickAction')"
   >
     <svg class="icon" viewBox="0 0 24 24">
-      <path v-for="[index, item] in path.entries()"
-            :d="item"
-            :key="index"
+      <path v-for="(v, i) in item.paths"
+            :d="v"
+            :key="i"
       />
     </svg>
   </button>
@@ -16,22 +16,27 @@
 
 <script>
 
+/**
+ * Item builder
+ * @param {string} bgColor 背景色
+ * @param {string[]} paths SVG 的路径列表
+ * @param {boolean} [active = false] 是否处于选中状态
+ * @constructor
+ */
+export function Item({bgColor: bgColor, paths: paths, active = false}) {
+  this.bgColor = bgColor;
+  this.paths = paths;
+  this.active = active;
+}
+
 export default {
-  name: "BarItem",
   props: {
-    //barItem的背景色
-    color: String,
-    //是否处于选中（激活）状态
-    active: Boolean,
-    //barItem的SVG的路径
-    path: Array,
-    accepted: undefined
+    item: {
+      type: Item,
+      required: true
+    },
   },
-  methods: {
-    getRef() {
-      return this.$refs.button;
-    }
-  }
+  emits: ['clickAction'],
 }
 </script>
 
