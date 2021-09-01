@@ -1,13 +1,14 @@
 <template>
-  <tab-bar/>
+  <tab-bar />
 </template>
 
-<script>
-import TabBar from "@/components/TabBar";
+<script lang="ts">
+import {defineComponent} from "vue";
+import TabBar from "../components/TabBar.vue";
 
-export default {
+export default defineComponent({
   components: {
     TabBar
   }
-}
+})
 </script>

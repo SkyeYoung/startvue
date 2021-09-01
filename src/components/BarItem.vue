@@ -1,35 +1,54 @@
 <template>
   <button
-      ref="button"
-      :class="['menu__item',{'active': item.active}]"
-      :style="{'--bgColorItem': item.bgColor}"
-      @click="$emit('clickAction')"
+    ref="button"
+    :class="['menu__item',{'active': item.active}]"
+    :style="{'--bgColorItem': item.bgColor}"
+    @click="$emit('clickAction')"
   >
-    <svg class="icon" viewBox="0 0 24 24">
-      <path v-for="(v, i) in item.paths"
-            :d="v"
-            :key="i"
+    <svg
+      class="icon"
+      viewBox="0 0 24 24"
+    >
+      <path
+        v-for="(v, i) in item.paths"
+        :key="i"
+        :d="v"
       />
     </svg>
   </button>
 </template>
 
-<script>
+<script lang="ts">
+import {defineComponent} from "vue";
 
-/**
- * Item builder
- * @param {string} bgColor 背景色
- * @param {string[]} paths SVG 的路径列表
- * @param {boolean} [active = false] 是否处于选中状态
- * @constructor
- */
-export function Item({bgColor: bgColor, paths: paths, active = false}) {
-  this.bgColor = bgColor;
-  this.paths = paths;
-  this.active = active;
+export interface ItemInter {
+  /**
+   * 背景色
+   */
+ bgColor: string;
+  /**
+   * SVG 路径
+   */
+ paths: string[];
+  /**
+   * 是否激活
+   */
+ active?: boolean
 }
 
-export default {
+export class Item implements ItemInter{
+  bgColor: string;
+  paths: string[];
+  active: boolean;
+
+  constructor(props: ItemInter) {
+    this.bgColor = props.bgColor
+    this.paths = props.paths
+    this.active = props.active || false
+  }
+}
+
+export default defineComponent({
   props: {
     item: {
       type: Item,
@@ -37,7 +56,7 @@ export default {
     },
   },
   emits: ['clickAction'],
-}
+})
 </script>
 
 <style scoped>
